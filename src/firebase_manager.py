@@ -40,7 +40,7 @@ class FirebaseManager:
 
 
 # Convenience functions for tags and owners
-def register_tag(uuid, owner_name, owner_email, owner_phone, db=None):
+def register_tag(uuid, owner_name, owner_email, owner_phone, manager):
     """Registers a tag in Firestore.
 
     Args:
@@ -48,10 +48,9 @@ def register_tag(uuid, owner_name, owner_email, owner_phone, db=None):
         owner_name: The owner's name.
         owner_email: The owner's email.
         owner_phone: The owner' s phone number.
-        db:  (Optional) A Firestore client instance.  If not provided, creates a new one.
+        manager: The FirebaseManager instance.
 
     """
-    manager = FirebaseManager(db)
     data = {
         "owner_name": owner_name,
         "owner_email": owner_email,
@@ -61,17 +60,6 @@ def register_tag(uuid, owner_name, owner_email, owner_phone, db=None):
     manager.register_document("tags", uuid, data)
 
 
-def fetch_tag(uuid, db=None):
-    manager = FirebaseManager(db)
+def fetch_tag(uuid, manager):
     return manager.fetch_document("tags", uuid)
 
-
-# def register_owner(uuid, owner_name, owner_email, owner_phone, db=None):
-#     manager = FirebaseManager(db)
-#     data = {
-#         "owner_name": owner_name,
-#         "owner_email": owner_email,
-#         "owner_phone": owner_phone,
-#         "created_at": datetime.datetime.now(datetime.UTC),
-#     }
-#     manager.register_document("owners", uuid, data)
