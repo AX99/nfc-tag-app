@@ -19,8 +19,14 @@ class FirebaseManager:
                 return
             doc_ref.set(data)
             print(f"Document {document_id} registered successfully in {collection}!")
-        except Exception as e:
-            print(f"Error registering document: {e}")
+        except (ValueError, TypeError) as e:
+            print(f"Error with document ID or collection: {e}")
+            raise
+        except ImportError as e:
+            print(f"Firebase import error: {e}")
+            raise
+        except RuntimeError as e:
+            print(f"Runtime error fetching document: {e}")
             raise
 
     def fetch_document(self, collection: str, document_id: str):
@@ -34,9 +40,52 @@ class FirebaseManager:
             else:
                 print(f"No document found with ID: {document_id} in {collection}")
                 return None
-        except Exception as e:
-            print(f"Error fetching document: {e}")
+        except (ValueError, TypeError) as e:
+            print(f"Error with document ID or collection: {e}")
             return None
+        except ImportError as e:
+            print(f"Firebase import error: {e}")
+            return None
+        except RuntimeError as e:
+            print(f"Runtime error fetching document: {e}")
+            return None
+
+    def is_authorized_tag(self, uuid: str):
+        """Checks if a tag UUID is authorized (pre-registered in the system).
+
+        Args:
+            uuid: The UUID of the tag to check.
+
+        Returns:
+            bool: True if the tag is authorized, False otherwise.
+        """
+        # Check if the UUID exists in the authorized_tags collection
+        authorized_tag = self.fetch_document("authorized_tags", uuid)
+        return authorized_tag is not None
+
+    def register_authorized_tag(self, uuid: str):
+        """Pre-registers a tag as authorized in the system.
+
+        This should be called during your manufacturing/preparation process,
+        before distributing tags to users.
+
+        Args:
+            uuid: The UUID of the tag to register as authorized.
+        """
+        data = {
+            "created_at": datetime.datetime.now(datetime.UTC),
+            "registered": False,  # Will be set to True when a user registers it
+        }
+        self.register_document("authorized_tags", uuid, data)
+
+    def mark_tag_as_registered(self, uuid: str):
+        """Marks an authorized tag as registered by a user.
+
+        Args:
+            uuid: The UUID of the tag.
+        """
+        authorized_tag_ref = self.db.collection("authorized_tags").document(uuid)
+        authorized_tag_ref.update({"registered": True})
 
 
 # Convenience functions for tags and owners
@@ -47,19 +96,42 @@ def register_tag(uuid, owner_name, owner_email, owner_phone, manager):
         uuid: The UUID of the tag.
         owner_name: The owner's name.
         owner_email: The owner's email.
-        owner_phone: The owner' s phone number.
+        owner_phone: The owner's phone number.
         manager: The FirebaseManager instance.
 
+    Returns:
+        bool: True if registration was successful, False if the tag is not authorized.
     """
+    # First check if this is an authorized tag
+    if not manager.is_authorized_tag(uuid):
+        print(f"Tag {uuid} is not authorized!")
+        return False
+
+    # Create the tag data
     data = {
         "owner_name": owner_name,
         "owner_email": owner_email,
         "owner_phone": owner_phone,
         "created_at": datetime.datetime.now(datetime.UTC),
     }
-    manager.register_document("tags", uuid, data)
+
+    # Register the tag
+    manager.register_document("registered_tags", uuid, data)
+
+    # Mark the tag as registered in the authorized_tags collection
+    manager.mark_tag_as_registered(uuid)
+
+    return True
 
 
 def fetch_tag(uuid, manager):
-    return manager.fetch_document("tags", uuid)
+    """Fetches a tag from Firestore using its UUID.
 
+    Args:
+        uuid: The UUID of the tag.
+        manager: The FirebaseManager instance.
+
+    Returns:
+        The tag data or None if not found.
+    """
+    return manager.fetch_document("registered_tags", uuid)

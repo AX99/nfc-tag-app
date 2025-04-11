@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - NFC Contact System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h1 class="mb-4">Contact Us</h1>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title mb-3">Get in Touch</h2>
+                            <p class="card-text">Have questions about our NFC Contact System? We're here to help. Fill out the form and we'll get back to you as soon as possible.</p>
+                            <div class="mt-4">
+                                <p><strong>Email:</strong> <a href="mailto:support@nfccontactsystem.com">support@nfccontactsystem.com</a></p>
+                                <p><strong>Hours:</strong> Monday-Friday, 9am-5pm EST</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title mb-3">Support Resources</h2>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><a href="{{ url_for('base_routes.faq') }}" class="text-decoration-none">FAQ Page</a> - Find answers to common questions</li>
+                                <li class="mb-2"><a href="{{ url_for('base_routes.privacy') }}" class="text-decoration-none">Privacy Policy</a> - Learn about our data handling practices</li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none">User Guide</a> - Get detailed instructions on using our system</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Contact Form</h2>
+                    <form id="contactForm" action="{{ url_for('base_routes.contact') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                            <div class="invalid-feedback">Please provide your name.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">Please provide a valid email.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <select class="form-select" id="subject" name="subject" required>
+                                <option value="" selected disabled>Select a subject</option>
+                                <option value="General Inquiry">General Inquiry</option>
+                                <option value="Technical Support">Technical Support</option>
+                                <option value="Registration Issue">Registration Issue</option>
+                                <option value="Lost Item Notification">Lost Item Notification</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a subject.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            <div class="invalid-feedback">Please provide a message.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div id="submitFeedback" class="mt-3"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Frequently Asked Questions</h2>
+                    <div class="accordion accordion-flush mt-3" id="contactFAQ">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="q1-heading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1-body" aria-expanded="false" aria-controls="q1-body">
+                                    How quickly can I expect a response?
+                                </button>
+                            </h2>
+                            <div id="q1-body" class="accordion-collapse collapse" aria-labelledby="q1-heading" data-bs-parent="#contactFAQ">
+                                <div class="accordion-body">
+                                    We typically respond to inquiries within 24-48 business hours. For urgent matters, please indicate this in your subject line.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="q2-heading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2-body" aria-expanded="false" aria-controls="q2-body">
+                                    What if I need to update my registered information?
+                                </button>
+                            </h2>
+                            <div id="q2-body" class="accordion-collapse collapse" aria-labelledby="q2-heading" data-bs-parent="#contactFAQ">
+                                <div class="accordion-body">
+                                    You can update your registration information by logging into your account. If you're having trouble, contact us and we'll assist you with the update.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="q3-heading">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3-body" aria-expanded="false" aria-controls="q3-body">
+                                    What happens if my NFC tag gets damaged?
+                                </button>
+                            </h2>
+                            <div id="q3-body" class="accordion-collapse collapse" aria-labelledby="q3-heading" data-bs-parent="#contactFAQ">
+                                <div class="accordion-body">
+                                    If your NFC tag is damaged, contact us through this form. We can help you transfer your registration to a new tag while maintaining the same contact information.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contactForm');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic form validation
+            if (!form.checkValidity()) {
+                e.stopPropagation();
+                form.classList.add('was-validated');
+                return;
+            }
+            
+            // Get form data
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+            
+            // Submit form using fetch
+            fetch('{{ url_for("base_routes.contact") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() if csrf_token else "" }}'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message
+                const feedback = document.getElementById('submitFeedback');
+                feedback.innerHTML = `<div class="alert alert-success">${data.message || 'Your message has been sent successfully!'}</div>`;
+                
+                // Reset form
+                form.reset();
+                form.classList.remove('was-validated');
+                
+                // Scroll to feedback
+                feedback.scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(error => {
+                // Show error message
+                const feedback = document.getElementById('submitFeedback');
+                feedback.innerHTML = `<div class="alert alert-danger">There was a problem submitting your form. Please try again or contact us directly.</div>`;
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+{% endblock %}

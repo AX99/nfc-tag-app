@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}Privacy Policy - NFC Contact System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 mb-4 text-center">Privacy Policy</h1>
+            <p class="lead text-muted text-center mb-5">Last updated: {{ last_updated }}</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Introduction</h2>
+                    <p>Welcome to the NFC Contact System Privacy Policy. This document outlines how we collect, use, protect, and share your personal information when you use our services, either as a tag owner or as someone who has found an item with one of our registered tags.</p>
+                    <p>By using our service, you agree to the terms outlined in this privacy policy. We take your privacy seriously and commit to protecting your personal information.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Information We Collect</h2>
+                    
+                    <h3 class="h5 mt-4">From Tag Owners</h3>
+                    <ul>
+                        <li>Name</li>
+                        <li>Email address</li>
+                        <li>Phone number</li>
+                        <li>NFC tag identification information</li>
+                        <li>IP address and browser information</li>
+                    </ul>
+                    
+                    <h3 class="h5 mt-4">From Item Finders</h3>
+                    <ul>
+                        <li>Name</li>
+                        <li>Contact information (email and/or phone number)</li>
+                        <li>Optional message regarding the found item</li>
+                        <li>IP address and browser information</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">How We Use Your Information</h2>
+                    
+                    <h3 class="h5 mt-4">Tag Owner Information</h3>
+                    <p>We use tag owner information to:</p>
+                    <ul>
+                        <li>Link your contact details to your registered NFC tags</li>
+                        <li>Notify you when someone finds your lost item</li>
+                        <li>Verify your identity when you access your account</li>
+                        <li>Provide customer support</li>
+                        <li>Send important service updates and announcements</li>
+                    </ul>
+                    
+                    <h3 class="h5 mt-4">Finder Information</h3>
+                    <p>We use finder information to:</p>
+                    <ul>
+                        <li>Forward your contact details to the registered owner of the found item</li>
+                        <li>Facilitate communication between you and the item owner</li>
+                        <li>Prevent abuse of our system</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Data Storage and Security</h2>
+                    <p>Your personal information is stored on secure servers protected by industry-standard encryption and security practices. We implement appropriate technical and organizational measures to protect against unauthorized access, alteration, disclosure, or destruction of your personal data.</p>
+                    <p>While we take these precautions, no internet-based service can guarantee 100% security. We encourage users to maintain secure passwords and to contact us immediately if they suspect any unauthorized access to their account.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Information Sharing</h2>
+                    <p>We share information in the following limited circumstances:</p>
+                    <ul>
+                        <li><strong>Between Owners and Finders:</strong> When someone finds an item, we share the finder's contact information with the registered owner to facilitate recovery.</li>
+                        <li><strong>Legal Requirements:</strong> We may disclose information if required to do so by law or in response to valid requests by public authorities.</li>
+                        <li><strong>Service Providers:</strong> We may engage trusted third parties to perform services for us, such as hosting, email delivery, and analytics. These providers have access to your information only to perform these tasks on our behalf.</li>
+                    </ul>
+                    <p>We do not sell your personal information to third parties or use it for marketing purposes without your explicit consent.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Data Retention</h2>
+                    <p>We retain your personal information for as long as your account is active or as needed to provide services to you. If you wish to delete your account or request that we no longer use your information, please contact us at <a href="mailto:privacy@nfccontactsystem.com">privacy@nfccontactsystem.com</a>.</p>
+                    <p>We may retain certain information as required by law or for legitimate business purposes, such as fraud prevention and system security.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Your Rights</h2>
+                    <p>Depending on your location, you may have certain rights regarding your personal information:</p>
+                    <ul>
+                        <li><strong>Access:</strong> You can request a copy of the personal information we hold about you.</li>
+                        <li><strong>Correction:</strong> You can request that we correct inaccurate information.</li>
+                        <li><strong>Deletion:</strong> You can request that we delete your personal information.</li>
+                        <li><strong>Restriction:</strong> You can request that we restrict the processing of your data.</li>
+                        <li><strong>Data Portability:</strong> You can request a copy of your data in a structured, machine-readable format.</li>
+                        <li><strong>Objection:</strong> You can object to our processing of your personal information.</li>
+                    </ul>
+                    <p>To exercise these rights, please contact our privacy team at <a href="mailto:privacy@nfccontactsystem.com">privacy@nfccontactsystem.com</a>.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Cookies and Tracking</h2>
+                    <p>We use cookies and similar tracking technologies to enhance your experience, analyze usage, and assist in our marketing efforts. You can manage your cookie preferences through your browser settings.</p>
+                    <p>Essential cookies are required for the operation of our service, while non-essential cookies help us improve our website and marketing efforts. You can opt out of non-essential cookies at any time.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Changes to This Policy</h2>
+                    <p>We may update this privacy policy from time to time to reflect changes to our practices or for other operational, legal, or regulatory reasons. We will notify you of any material changes through a notice on our website or by email if you have provided one.</p>
+                    <p>The date at the top of this policy indicates when it was last updated. We encourage you to review this policy periodically to stay informed about how we protect your information.</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Contact Us</h2>
+                    <p>If you have any questions about this privacy policy or our data practices, please contact us at:</p>
+                    <address>
+                        <strong>NFC Contact System</strong><br>
+                        Email: <a href="mailto:privacy@nfccontactsystem.com">privacy@nfccontactsystem.com</a><br>
+                        Address: 123 Privacy Lane, Security City, ST 12345<br>
+                        Phone: (555) 123-4567
+                    </address>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ url_for('base_routes.home') }}" class="btn btn-primary">Return to Home</a>
+                <a href="{{ url_for('base_routes.contact') }}" class="btn btn-outline-secondary ms-2">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

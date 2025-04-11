@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Owner - NFC Contact System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="alert alert-success mb-4">
+            <h4 class="alert-heading">Tag Successfully Scanned!</h4>
+            <p>This item is registered in our system. Please fill out the form below to contact the owner.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Contact the Owner</h2>
+                <form id="finderForm" method="POST" action="{{ url_for('finder_routes.notify_owner') }}" class="needs-validation" novalidate>
+                    <input type="hidden" name="tag_uuid" value="{{ tag_uuid }}">
+
+                    <div class="mb-3">
+                        <label for="finderName" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="finderName" name="finder_name" required>
+                        <div class="invalid-feedback">Please provide your name.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="finderContact" class="form-label">Your Email or Phone Number</label>
+                        <input type="text" class="form-control" id="finderContact" name="finder_contact" required>
+                        <div class="invalid-feedback">Please provide a way for the owner to contact you.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message (Optional)</label>
+                        <textarea class="form-control" id="message" name="message" rows="4"
+                                  placeholder="Describe where you found the item, its condition, etc."></textarea>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="privacyConsent" required>
+                        <label class="form-check-label" for="privacyConsent">
+                            I agree to the <a href="{{ url_for('base_routes.privacy') }}" target="_blank">privacy policy</a>
+                        </label>
+                        <div class="invalid-feedback">You must agree to the privacy policy.</div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Send Message to Owner</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('finderForm');
+    
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        if (!form.checkValidity()) {
+            event.stopPropagation();
+            form.classList.add('was-validated');
+            return;
+        }
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            
+            if (response.ok) {
+                window.location.href = "{{ url_for('base_routes.finder_confirmation') }}";
+            } else {
+                throw new Error(result.message || 'Message submission failed');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    });
+});
+</script>
+{% endblock %}

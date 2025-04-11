@@ -3,6 +3,7 @@ from firebase_admin import firestore
 from src.firebase_init.firebase_init import initialize_firebase
 from src.routes.tag_routes import tag_routes
 from src.routes.finder_routes import finder_routes  # Import finder_routes
+from src.routes.base_routes import base_routes  # Import base_routes
 from src.firebase_manager import FirebaseManager
 from src.config import FIREBASE_DB_ID
 
@@ -23,6 +24,7 @@ def create_app(config_object=None):  # Allow for optional config object
     manager = FirebaseManager(db)
     app.manager = manager
 
+    app.register_blueprint(base_routes)
     app.register_blueprint(tag_routes, url_prefix="/api")
     app.register_blueprint(finder_routes, url_prefix="/api")
 
