@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - NFC Contact System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 mb-4">Lost & Found Made Simple</h1>
+        <p class="lead mb-4">Connect lost items with their owners securely and anonymously using NFC tags.</p>
+        
+        {% if unregistered_tag %}
+            <div class="alert alert-info mb-4">
+                <h4 class="alert-heading">Unregistered Tag Detected!</h4>
+                <p>The scanned tag (UUID: {{ uuid }}) is not yet registered in our system.</p>
+                <hr>
+                <a href="{{ url_for('tag_routes.register_tag_route', uuid=uuid) }}" class="btn btn-primary btn-lg">Register This Tag</a>
+            </div>
+        {% endif %}
+
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">For Item Owners</h3>
+                        <p class="card-text">Register your NFC tag to protect your valuable items. When someone finds your item, they can contact you anonymously through our secure system.</p>
+                        <p class="card-text"><small class="text-muted">To register a tag, scan it first.</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Found an Item?</h3>
+                        <p class="card-text">Simply scan the NFC tag with your phone. Our system will help you contact the owner without sharing personal information.</p>
+                        <a href="{{ url_for('base_routes.faq') }}#how-to-return" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h2 class="h3 mb-4">How It Works</h2>
+            <div class="row text-start">
+                <div class="col-md-4">
+                    <h4 class="h5">1. Register</h4>
+                    <p>Attach an NFC tag to your valuable item and register it in our system.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="h5">2. Someone Finds It</h4>
+                    <p>If your item is lost, the finder can scan the NFC tag with their phone.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="h5">3. Secure Contact</h4>
+                    <p>The finder can contact you through our system without seeing your personal details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

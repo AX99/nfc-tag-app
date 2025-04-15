@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Register Your Tag - NFC Contact System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">Register Your Tag</h2>
+            </div>
+            <div class="card-body">
+                {% if is_authorized %}
+                <div class="alert alert-info mb-4">
+                    <h4 class="alert-heading">Tag Information</h4>
+                    <p>You are registering tag with UUID: <strong>{{ uuid }}</strong></p>
+                </div>
+                {% endif %}
+
+                {% if is_authorized is defined and not is_authorized %}
+                <div class="alert alert-danger mb-4">
+                    <h4 class="alert-heading">Warning: Unrecognized Tag</h4>
+                    <p>This tag is not recognized as an authorized tag in our system. Registration is only available for
+                        authorized tags.</p>
+                    <p>If you believe this is an error, please contact support.</p>
+                </div>
+                {% else %}
+                <form action="{{ url_for('tag_routes.register_tag_route', uuid=uuid) }}" method="post"
+                    id="register-form" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="owner_name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="owner_name" name="owner_name" required>
+                        <div class="invalid-feedback">Please provide your name.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="owner_email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="owner_email" name="owner_email" required>
+                        <div class="invalid-feedback">Please provide a valid email address.</div>
+                        <div class="form-text">We'll use this to notify you if your item is found.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="owner_phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="owner_phone" name="owner_phone" required>
+                        <div class="invalid-feedback">Please provide your phone number.</div>
+                        <div class="form-text">Alternative contact method if email fails.</div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="privacyConsent" required>
+                        <label class="form-check-label" for="privacyConsent">
+                            I agree to the <a href="{{ url_for('base_routes.privacy') }}" target="_blank">privacy
+                                policy</a>
+                        </label>
+                        <div class="invalid-feedback">You must agree to the privacy policy.</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Register Tag</button>
+                        <a href="{{ url_for('base_routes.home') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('register-form');
+
+        if (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            });
+        }
+    });
+</script>
+{% endblock %}
