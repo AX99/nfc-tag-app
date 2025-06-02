@@ -54,7 +54,8 @@ The application is built with:
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.12+
+- Pipenv for dependency management
 - Firebase account with Firestore database
 - Firebase service account credentials
 
@@ -62,24 +63,23 @@ The application is built with:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/nfc-tag-app.git
+   git clone <your-repository-url>
    cd nfc-tag-app
    ```
 
-2. Create and activate a virtual environment:
+2. Install pipenv if you haven't already:
    ```
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install pipenv
    ```
 
 3. Install dependencies:
    ```
-   pip install -r requirements.txt
+   pipenv install
    ```
 
 4. Create a `.env` file in the project root with the following variables:
    ```
-   FLASK_APP=src/app.py
+   FLASK_APP=app.py
    FLASK_ENV=development
    FIREBASE_SERVICE_ACCOUNT_PATH=path/to/your/serviceAccountKey.json
    FIREBASE_DB_ID=your-firebase-db-id
@@ -90,7 +90,12 @@ The application is built with:
 
 1. Start the Flask development server:
    ```
-   flask run
+   pipenv run flask run
+   ```
+   
+   Or use the provided makefile:
+   ```
+   make run
    ```
 
 2. Access the application at `http://localhost:5000`
@@ -110,7 +115,7 @@ Located in `admin_tools/tag_manager.py`, this tool allows administrators to:
 To use the admin tools:
 
 ```
-python admin_tools/tag_manager.py
+pipenv run python admin_tools/tag_manager.py
 ```
 
 ## Deployment
@@ -137,4 +142,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For support, please contact [your-email@example.com](mailto:your-email@example.com)
+For support, please open an issue on this repository.
